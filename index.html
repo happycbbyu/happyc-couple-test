@@ -288,7 +288,9 @@
     cursor: pointer;
     transition: all 0.2s ease;
   }
-  .role-card:hover { background: var(--pink-soft); }
+  @media (hover: hover) {
+    .role-card:hover { background: var(--pink-soft); }
+  }
   .role-card.selected {
     background: var(--dahong-soft);
     border-color: var(--dahong);
@@ -422,7 +424,9 @@
     gap: 10px;
     width: 100%;
   }
-  .option:hover { background: var(--pink-soft); border-color: var(--pink); }
+  @media (hover: hover) {
+    .option:hover { background: var(--pink-soft); border-color: var(--pink); }
+  }
   .option.selected { background: var(--dahong); color: var(--white); border-color: var(--dahong); transform: scale(0.98); }
 
   .option-num {
@@ -878,6 +882,43 @@
     text-align: center;
   }
 
+  .spouse-input-box {
+    background: var(--white);
+    border-radius: 14px;
+    padding: 14px 16px;
+    margin-bottom: 12px;
+  }
+
+  .spouse-input-label {
+    display: block;
+    font-size: 12.5px;
+    font-weight: 700;
+    color: var(--dahong);
+    margin-bottom: 8px;
+  }
+
+  .spouse-input {
+    width: 100%;
+    background: var(--gisu-soft);
+    border: 2px solid transparent;
+    border-radius: 10px;
+    padding: 11px 14px;
+    font-size: 14px;
+    font-family: 'Gowun Dodum', sans-serif;
+    color: var(--ink);
+    outline: none;
+    transition: all 0.2s ease;
+  }
+  .spouse-input:focus { border-color: var(--dahong); background: var(--white); }
+  .spouse-input::placeholder { color: var(--ink-light); }
+
+  .spouse-input-hint {
+    font-size: 11px;
+    color: var(--ink-light);
+    margin-top: 6px;
+    line-height: 1.5;
+  }
+
   .prompt-box {
     background: var(--white);
     border-radius: 14px;
@@ -1076,6 +1117,86 @@
     margin-bottom: 14px;
   }
 
+  .shared-banner {
+    background: linear-gradient(135deg, var(--dahong) 0%, var(--pink) 100%);
+    color: var(--white);
+    border-radius: 18px;
+    padding: 16px 18px;
+    margin-bottom: 16px;
+    box-shadow: var(--shadow);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 12px;
+  }
+
+  .shared-banner-text {
+    flex: 1;
+    font-size: 13px;
+    line-height: 1.55;
+  }
+
+  .shared-banner-text strong {
+    font-weight: 700;
+    font-family: 'Hahmlet', serif;
+    font-size: 14px;
+  }
+
+  .shared-banner-sub {
+    opacity: 0.9;
+    font-size: 12px;
+  }
+
+  .shared-banner-btn {
+    background: var(--white);
+    color: var(--dahong);
+    border: none;
+    padding: 9px 14px;
+    border-radius: 100px;
+    font-size: 12.5px;
+    font-weight: 700;
+    font-family: 'Gowun Dodum', sans-serif;
+    cursor: pointer;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .shared-banner-btn:hover { transform: scale(1.05); }
+
+  .intro-warning {
+    background: #FFF3D6;
+    border: 2px solid #FFB627;
+    border-radius: 14px;
+    padding: 14px 16px;
+    font-size: 13px;
+    color: #6B4A0E;
+    line-height: 1.7;
+    margin-top: 14px;
+    margin-bottom: 14px;
+    text-align: left;
+    word-break: keep-all;
+  }
+
+  .intro-warning strong {
+    color: #C77700;
+  }
+
+  .save-warning {
+    background: #FFF3D6;
+    border: 2px solid #FFB627;
+    border-radius: 12px;
+    padding: 12px 14px;
+    font-size: 12.5px;
+    color: #6B4A0E;
+    line-height: 1.6;
+    margin-bottom: 14px;
+    text-align: left;
+    word-break: keep-all;
+  }
+
+  .save-warning strong {
+    color: #C77700;
+  }
+
   .share-buttons {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -1185,6 +1306,11 @@
           신혼부부에게 맞게 재구성한 30문항 진단입니다.
           소요시간 약 5분.
         </p>
+      </div>
+
+      <div class="intro-warning">
+        ⚠️ <strong>잠깐!</strong> 한 번 선택한 답변은 이전으로 돌아갈 수 없어요.<br>
+        클릭에 주의하고 신중하게 선택해주세요 🐰
       </div>
 
       <button class="primary-btn" onclick="goToProfile()">🥕 테스트 시작하기 🥕</button>
@@ -1390,6 +1516,14 @@
             아래 GPT 프롬프트를 활용해서 시작해보세요.
           </p>
 
+          <div class="spouse-input-box">
+            <label class="spouse-input-label">💑 배우자의 사랑의 언어 1·2순위를 입력해보세요</label>
+            <input type="text" class="spouse-input" id="spouseLoveLang"
+              placeholder="예: 스킨십, 선물"
+              oninput="updatePromptWithSpouse()">
+            <div class="spouse-input-hint">배우자도 같이 테스트해본 후 결과를 입력하면 프롬프트가 자동으로 완성돼요</div>
+          </div>
+
           <div class="prompt-box">
             <div class="prompt-label">
               <span>📋 GPT 프롬프트</span>
@@ -1410,7 +1544,7 @@
         </div>
 
         <!-- 응답 요약 -->
-        <div class="answer-summary">
+        <div class="answer-summary" id="answerSummary">
           <h3>📝 <span id="summaryNickname"></span>님의 응답 요약</h3>
 
           <div class="answer-category">
@@ -1442,12 +1576,15 @@
           금융 문맹 탈출하고, 내 집 마련하고,<br>
           돈 때문에 흔들리지 않는 부부가 되고 싶다면
         </div>
-        <a href="https://www.geekus.kr/bbyumoney_studyclub" target="_blank" class="cta-btn">쀼머니스터디클럽에서 만나요 →</a>
+        <a href="https://happyccyu.com" target="_blank" class="cta-btn">쀼머니스터디클럽에서 만나요 →</a>
       </div>
 
       <!-- Share -->
       <div class="share-section">
         <h3 class="share-title">👫 배우자와 공유해보세요</h3>
+        <div class="save-warning">
+          ⚠️ <strong>꼭 저장하기 팝업이 뜨면 저장 버튼을 한 번 더 눌러야 사진이 날아가지 않아요!</strong>
+        </div>
         <div class="share-buttons">
           <button class="share-btn" onclick="saveAsImage()">📸 이미지 저장</button>
           <button class="share-btn" onclick="copyLink()">🔗 링크 복사</button>
@@ -1507,10 +1644,10 @@ const loveQuestions = [
   { q: '배우자에게 받고 싶은 생일 선물은?',
     options: [
       { t: '진심 담긴 손편지나 영상편지', type: 'A' },
-      { t: '둘이서 1박 2일 호캉스', type: 'B' },
+      { t: '둘이서 떠나는 특별한 여행이나 데이트', type: 'B' },
       { t: '평소 갖고 싶었던 가방·시계 같은 물건', type: 'C' },
       { t: '하루 종일 풀케어 해주는 "오늘은 내가 다 할게" 데이', type: 'D' },
-      { t: '커플 마사지나 둘만의 스킨십 데이트', type: 'E' },
+      { t: '호캉스하면서 밤새 꼭 붙어있기', type: 'E' },
     ]},
   { q: '평범한 출근길, 배우자가 보낸 카톡 중 가장 행복한 건?',
     options: [
@@ -1530,11 +1667,11 @@ const loveQuestions = [
     ]},
   { q: '둘이서 보내는 가장 행복한 저녁 시간의 모습은?',
     options: [
-      { t: '서로 하루를 얘기하며 칭찬·격려 주고받기', type: 'A' },
-      { t: '핸드폰 없이 마주 보고 진짜 대화하는 시간', type: 'B' },
-      { t: '서로에게 줄 작은 선물을 골라보며 데이트', type: 'C' },
+      { t: '서로의 하루를 칭찬·격려하기', type: 'A' },
+      { t: '방해받지 않고 서로 진솔한 대화 나누기', type: 'B' },
+      { t: '서로에게 줄 작은 선물 고르면서 데이트', type: 'C' },
       { t: '같이 요리하고 같이 정리하는 시간', type: 'D' },
-      { t: '소파에 붙어 앉아 영화 보며 손잡고 있기', type: 'E' },
+      { t: '침대에 서로 꼭 끌어안고 뽀뽀 폭탄', type: 'E' },
     ]},
   { q: '결혼생활에서 "사랑받고 있구나" 가장 크게 느끼는 순간은?',
     options: [
@@ -1546,11 +1683,11 @@ const loveQuestions = [
     ]},
   { q: '만약 한 가지만 평생 받을 수 있다면?',
     options: [
-      { t: '매일 듣는 진심 어린 칭찬과 사랑의 말', type: 'A' },
-      { t: '매주 둘만의 온전한 시간', type: 'B' },
-      { t: '매달 받는 의미 있는 작은 선물', type: 'C' },
-      { t: '매일 내 짐을 덜어주는 든든한 도움', type: 'D' },
-      { t: '매일 자연스러운 스킨십과 포옹', type: 'E' },
+      { t: '진심 어린 칭찬과 사랑의 말', type: 'A' },
+      { t: '둘만의 온전한 시간', type: 'B' },
+      { t: '의미 있는 작은 선물', type: 'C' },
+      { t: '내 짐을 덜어주는 든든한 도움', type: 'D' },
+      { t: '자연스러운 스킨십과 포옹', type: 'E' },
     ]},
 ];
 
@@ -2041,6 +2178,11 @@ function renderQuestion() {
 
 function selectOption(opt, btnEl) {
   btnEl.classList.add('selected');
+  // iOS Safari에서 클릭 후 hover/focus 잔상 제거
+  btnEl.blur();
+  if (document.activeElement && document.activeElement.blur) {
+    document.activeElement.blur();
+  }
   const q = allQuestions[currentQ];
 
   // record answer
@@ -2264,11 +2406,26 @@ function renderPrompt() {
   const sorted = Object.entries(loveScores).sort((a,b) => b[1] - a[1]);
   const top1 = loveLangFullName[sorted[0][0]];
   const top2 = loveLangFullName[sorted[1][0]];
+  window._myTop1 = top1;
+  window._myTop2 = top2;
+  buildPrompt();
+}
 
-  const promptText = `내 배우자의 사랑의 언어는 [${top1}, ${top2}]인데, 나는 이 부분이 어색하고 어떻게 표현해야 할지 모르겠어. 어떤 방식으로 행동하고 말해줘야 내 짝꿍이 행복하고 사랑을 느낄까? 전문 부부 상담사가 분석해주는 톤으로, 실생활에 바로 적용할 수 있게 구체적으로 알려줘.`;
+function buildPrompt() {
+  const top1 = window._myTop1 || '';
+  const top2 = window._myTop2 || '';
+  const spouseInput = document.getElementById('spouseLoveLang');
+  const spouseVal = spouseInput ? spouseInput.value.trim() : '';
+  const spousePart = spouseVal ? spouseVal : '○○, ○○ (직접 입력)';
+
+  const promptText = `나는 사랑의 언어가 [${top1}, ${top2}]이고, 배우자는 [${spousePart}]야. 우리 부부는 서로 다른 사랑의 언어를 갖고 있어서, 나는 배우자의 사랑의 언어가 어색하고 어떻게 표현해야 할지 모르겠어. 어떤 방식으로 행동하고 말해줘야 내 짝꿍이 행복하고 사랑을 느낄까? 전문 부부 상담사가 분석해주는 톤으로, 실생활에 바로 적용할 수 있게 구체적으로 알려줘.`;
 
   document.getElementById('promptText').textContent = promptText;
   window._gptPrompt = promptText;
+}
+
+function updatePromptWithSpouse() {
+  buildPrompt();
 }
 
 function renderAnswerSummary() {
@@ -2404,10 +2561,14 @@ function showLongTextPrompt(text) {
 }
 
 function copyLink() {
-  const url = window.location.href;
+  // 현재 결과를 URL에 인코딩
+  const encoded = encodeResult();
+  const baseUrl = window.location.origin + window.location.pathname;
+  const url = `${baseUrl}?r=${encoded}`;
+
   copyToClipboard(url).then(success => {
     if (success) {
-      showToast('🔗 링크가 복사됐어요! 배우자에게 보내주세요 💕');
+      showToast('🔗 결과 링크 복사 완료! 배우자에게 보내주세요 💕');
     } else {
       showLongTextPrompt(url);
     }
@@ -2444,7 +2605,144 @@ function restartQuiz() {
   document.querySelectorAll('.role-card').forEach(c => c.classList.remove('selected'));
   document.getElementById('startQuizBtn').disabled = true;
   showScreen('introScreen');
+
+  // URL에서 결과 파라미터도 제거
+  if (window.location.search) {
+    history.replaceState({}, '', window.location.pathname);
+  }
 }
+
+/* ===========================================
+   결과 공유 (URL 인코딩/디코딩)
+=========================================== */
+
+// 결과를 URL-safe 짧은 문자열로 인코딩
+function encodeResult() {
+  // 압축된 형태: 닉네임 / 역할 / 사랑점수 / 돈점수 / 대화점수
+  // 점수는 작은 정수 배열이라서 충분히 짧게 만들 수 있음
+  const data = {
+    n: userNickname,
+    r: userRole === 'husband' ? 'h' : 'w',
+    l: [loveScores.A, loveScores.B, loveScores.C, loveScores.D, loveScores.E],
+    m: moneyScore,
+    t: [talkScores.X, talkScores.Y, talkScores.Z, talkScores.W],
+    d: new Date().toISOString().split('T')[0]  // 날짜 YYYY-MM-DD
+  };
+  // JSON → Base64 (URL-safe)
+  const jsonStr = JSON.stringify(data);
+  const b64 = btoa(unescape(encodeURIComponent(jsonStr)))
+    .replace(/\+/g, '-').replace(/\//g, '_').replace(/=/g, '');
+  return b64;
+}
+
+// URL에서 결과 파라미터 디코딩
+function decodeResultFromURL() {
+  const params = new URLSearchParams(window.location.search);
+  const r = params.get('r');
+  if (!r) return null;
+  try {
+    // URL-safe Base64 → 일반 Base64
+    let b64 = r.replace(/-/g, '+').replace(/_/g, '/');
+    // padding 추가
+    while (b64.length % 4) b64 += '=';
+    const jsonStr = decodeURIComponent(escape(atob(b64)));
+    return JSON.parse(jsonStr);
+  } catch(e) {
+    console.error('Failed to decode result from URL:', e);
+    return null;
+  }
+}
+
+// 결과 데이터를 현재 상태로 복원하고 결과 화면 표시
+function loadSharedResult(data) {
+  userNickname = data.n || '';
+  userRole = data.r === 'h' ? 'husband' : 'wife';
+
+  // 점수 복원
+  loveScores = {
+    A: data.l[0], B: data.l[1], C: data.l[2], D: data.l[3], E: data.l[4]
+  };
+  moneyScore = data.m;
+  talkScores = {
+    X: data.t[0], Y: data.t[1], Z: data.t[2], W: data.t[3]
+  };
+
+  // answers는 응답 요약용인데, 공유 링크에는 안 담음
+  // → tally를 점수에서 재구성
+  answers = rebuildAnswersFromScores();
+
+  // 결과 화면 표시
+  showScreen('resultScreen');
+
+  // header
+  document.getElementById('resultNickname').textContent = userNickname;
+  document.getElementById('summaryNickname').textContent = userNickname;
+
+  // 공유받은 날짜로 표시
+  if (data.d) {
+    const dt = data.d.split('-');
+    document.getElementById('resultDate').textContent =
+      `${dt[0]}.${dt[1]}.${dt[2]} · 해피씨쀼`;
+  } else {
+    const now = new Date();
+    document.getElementById('resultDate').textContent =
+      `${now.getFullYear()}.${String(now.getMonth()+1).padStart(2,'0')}.${String(now.getDate()).padStart(2,'0')} · 해피씨쀼`;
+  }
+
+  renderLove();
+  renderMoney();
+  renderTalk();
+  renderPrompt();
+  // 공유받은 결과에서는 응답 요약 표(money tally가 부정확)와 배우자 입력칸 숨김
+  const summary = document.getElementById('answerSummary');
+  if (summary) summary.style.display = 'none';
+  const spouseBox = document.querySelector('.spouse-input-box');
+  if (spouseBox) spouseBox.style.display = 'none';
+
+  // 공유받은 결과임을 표시하는 배너 추가
+  showSharedBanner();
+}
+
+function rebuildAnswersFromScores() {
+  // answers 배열을 점수에서 재구성 (응답 요약용)
+  // 실제 어떤 선택지를 골랐는지는 알 수 없지만, tally는 정확함
+  const reconstructed = [];
+  ['A','B','C','D','E'].forEach(t => {
+    for (let i = 0; i < loveScores[t]; i++) {
+      reconstructed.push({ category: 'love', meta: { type: t }, optText: '', qText: '' });
+    }
+  });
+  // money: 점수에서 안정/밸런스/공격 비율 추정
+  // moneyScore가 10~30이므로, 정확한 카운트는 추정만 가능
+  // 따라서 응답 요약에서 money tally는 별도 처리 필요
+  return reconstructed;
+}
+
+function showSharedBanner() {
+  // 이미 있으면 추가하지 않음
+  if (document.getElementById('sharedBanner')) return;
+
+  const banner = document.createElement('div');
+  banner.id = 'sharedBanner';
+  banner.className = 'shared-banner';
+  banner.innerHTML = `
+    <div class="shared-banner-text">
+      💕 <strong>${userNickname}</strong>님이 공유한 결과예요<br>
+      <span class="shared-banner-sub">나도 테스트해보고 비교해볼까요?</span>
+    </div>
+    <button class="shared-banner-btn" onclick="restartQuiz()">나도 해보기 🐰</button>
+  `;
+  const resultScreen = document.getElementById('resultScreen');
+  resultScreen.insertBefore(banner, resultScreen.firstChild);
+}
+
+// 페이지 로드 시 URL에 결과 파라미터 있으면 자동으로 결과 화면 표시
+window.addEventListener('DOMContentLoaded', () => {
+  const sharedData = decodeResultFromURL();
+  if (sharedData) {
+    loadSharedResult(sharedData);
+  }
+});
 </script>
 </body>
 </html>
